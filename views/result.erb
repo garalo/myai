@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kişisel Yapay Zeka Asistanım</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      width: 80%;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background-color: #45a049;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+    }
+    .content {
+      padding: 20px;
+    }
+    .text {
+      margin-bottom: 10px;
+    }
+    .text-label {
+      font-weight: bold;
+      color: #333;
+    }
+
+    footer {
+      background-color: #88a285;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      width: 100%;
+    }
+
+    footer a {
+      color: #FFF700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Kişisel Yapay Zeka Asistanım</h1>
+    </div>
+    <div class="content">
+      <p class="text">
+        <span class="text-label">Girdiğiniz Metin:</span>
+        <span class="text-content"><%= @text %></span>
+      </p>
+      <hr>
+      <p class="text">
+        <span class="text-label">Yapay Zekanın Oluşturduğu Sonuçlar:</span>
+      </p>
+      <p class="generated_text">
+        <%= markdown_to_html(@generated_text) %>
+      </p>
+    </div>
+  </div>
+  <footer>
+  <p>Created by <a href="https://github.com/garalo" target="_blank" rel="noopener noreferrer">garalo</a></p>
+</footer>
+</body>
+</html>
