@@ -15,65 +15,90 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-    .header {
-      background-color: #45a049;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-      border-bottom: 1px solid #ccc;
-    }
+   
     .content {
       padding: 20px;
     }
-    .text {
-      margin-bottom: 10px;
-    }
-    .text-label {
-      font-weight: bold;
-      color: #333;
-    }
 
-    footer {
-      background-color: #88a285;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      width: 100%;
-    }
+    .header {
+  background-color: #45a049;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Logo ve başlık arasındaki boşluk */
+}
 
-    footer a {
-      color: #FFF700;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.header a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
 
-    footer a:hover {
-      text-decoration: underline;
-    }
+.header-logo {
+  width: 50px; /* Logo boyutunu ayarlayabilirsin */
+  height: auto;
+  margin-right: 15px;
+}
+
+
+footer {
+  background-color: #88a285;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Logo ve yazı arasındaki boşluğu ayarlar */
+}
+
+footer img {
+  width: 30px; /* Küçük logo boyutu */
+  height: auto;
+}
 
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-    <a href="/"><h3>Başka Bir Şey Sor</h3></a>
-    </div>
+  <div class="header">
+  <a href="/">
+    <img src="/images/logo.png" alt="I'know Logo" class="header-logo">
+    <h2> I'KNOW'a Sor!</h2>
+  </a>
+</div>
     <div class="content">
-      <p class="text">
-        <span class="text-label">Girdiğiniz Metin:</span>
-        <span class="text-content"><%= @text %></span>
-      </p>
+    <p class="text">
+    <span class="text-label"><strong>Girdiğiniz Metin:</strong></span>
+    <span class="text-content"><%= @text %></span>
+  </p>
       <hr>
       <p class="text">
-        <span class="text-label">Yapay Zekanın Oluşturduğu Sonuçlar:</span>
-      </p>
+  <span class="text-label"><strong>I'KNOW Sizin İçin Sonuçları Aşağıdaki Gibi Oluşturdu :</strong></span>
+</p>
       <p class="generated_text">
         <%= markdown_to_html(@generated_text) %>
       </p>
     </div>
   </div>
   <footer>
-  <p>Created by <a href="https://www.instagram.com/ak_japon" target="_blank" rel="noopener noreferrer">Ahmet KILIÇ</a></p>
+  <div class="footer-content">
+    <img src="/images/logo.png" alt="I'know Logo">
+    <p>Created by <a href="https://www.instagram.com/ak_japon" target="_blank" rel="noopener noreferrer">Ahmet KILIÇ</a></p>
+  </div>
 </footer>
 </body>
 </html>

@@ -7,6 +7,7 @@ require 'rouge'
 require 'rouge/plugins/redcarpet'
 require 'dotenv/load'
 
+
 # Markdown ve Syntax Highlighting için Renderer Tanımlama
 class HTMLWithPygments < Redcarpet::Render::HTML
     include Rouge::Plugins::Redcarpet # Rouge ile kod renklendirme desteği

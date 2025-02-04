@@ -25,10 +25,16 @@
       width: 100%;
       max-width: 500px;
       margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .logo {
+      width: 120px;
+      height: auto;
+      margin-bottom: 1rem;
     }
 
     h1 {
-      text-align: center;
       color: #333;
     }
 
@@ -68,35 +74,48 @@
     }
 
     footer {
-      background-color: #88a285;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      width: 100%;
-    }
+  background-color: #88a285;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    footer a {
-      color: #FFF700;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Logo ve yazı arasındaki boşluğu ayarlar */
+}
 
-    footer a:hover {
-      text-decoration: underline;
-    }
+footer img {
+  width: 30px; /* Küçük logo boyutu */
+  height: auto;
+}
+
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- LOGO EKLENDİ -->
+    <img src="/images/logo.png" alt="I'know Logo" class="logo">
     <h1>Kişisel Yapay Zeka Asistanım</h1>
     <form action="/generate" method="post">
       <label for="text">Size Nasıl Yardımcı Olabilirim? Aşağıya Yazınız:</label>
       <textarea id="text" name="text" required aria-label="Yapay zekaya sorunuz"></textarea>
-      <input type="submit" value="Yapay Zekanın Cevabını Göster" aria-label="Cevabı göster">
+      <input type="submit" value="I'KNOW Cevabı Göster" aria-label="Cevabı göster">
     </form>
   </div>
+
   <footer>
-  <p>Created by <a href="https://www.instagram.com/ak_japon" target="_blank" rel="noopener noreferrer">Ahmet KILIÇ</a></p>
-  </footer>
+  <div class="footer-content">
+    <img src="/images/logo.png" alt="I'know Logo">
+    <p>Created by <a href="https://www.instagram.com/ak_japon" target="_blank" rel="noopener noreferrer">Ahmet KILIÇ</a></p>
+  </div>
+</footer>
 </body>
 </html>
