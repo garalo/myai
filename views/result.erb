@@ -1,104 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Kişisel Yapay Zeka Asistanım</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-    .container {
-      width: 80%;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: #f9f9f9;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-   
-    .content {
-      padding: 20px;
-    }
+<div class="result-container">
+  <div class="result-meta">
+    <div class="prompt-title">Girdiğiniz Metin</div>
+    <div class="prompt-content"><%= @text %></div>
+  </div>
 
-    .header {
-  background-color: #45a049;
-  color: #fff;
-  padding: 10px;
-  text-align: center;
-  border-bottom: 1px solid #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px; /* Logo ve başlık arasındaki boşluk */
-}
-
-.header a {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: white;
-}
-
-.header-logo {
-  width: 50px; /* Logo boyutunu ayarlayabilirsin */
-  height: auto;
-  margin-right: 15px;
-}
-
-
-footer {
-  background-color: #88a285;
-  color: white;
-  text-align: center;
-  padding: 10px;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer-content {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* Logo ve yazı arasındaki boşluğu ayarlar */
-}
-
-footer img {
-  width: 30px; /* Küçük logo boyutu */
-  height: auto;
-}
-
-  </style>
-</head>
-<body>
-  <div class="container">
-  <div class="header">
-  <a href="/">
-    <img src="/images/logo.png" alt="I'know Logo" class="header-logo">
-    <h2> I'KNOW'a Sor!</h2>
-  </a>
-</div>
-    <div class="content">
-    <p class="text">
-    <span class="text-label"><strong>Girdiğiniz Metin:</strong></span>
-    <span class="text-content"><%= @text %></span>
-  </p>
-      <hr>
-      <p class="text">
-  <span class="text-label"><strong>I'KNOW Sizin İçin Sonuçları Aşağıdaki Gibi Oluşturdu :</strong></span>
-</p>
-      <p class="generated_text">
-        <%= markdown_to_html(@generated_text) %>
-      </p>
+  <% if @insecure_used %>
+    <div class="alert-warning">
+      <strong>Uyarı:</strong> Güvenlik doğrulaması devre dışı bırakıldı. Bu yalnızca geliştirme amaçlıdır.
     </div>
+  <% end %>
+
+  <div class="prompt-title">Yapay Zekanın Yanıtı</div>
+  <div class="generated-markdown">
+    <%= markdown_to_html(@generated_text) %>
   </div>
-  <footer>
-  <div class="footer-content">
-    <img src="/images/logo.png" alt="I'know Logo">
-    <p>Created by <a href="https://www.instagram.com/ak_japon" target="_blank" rel="noopener noreferrer">Ahmet KILIÇ</a></p>
+
+  <div style="margin-top: 2rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 1.5rem;">
+    <a href="/" class="btn" style="width: auto; background: transparent; color: var(--primary); border: 2px solid var(--primary);">Yeni Bir Şey Sor</a>
   </div>
-</footer>
-</body>
-</html>
+</div>
