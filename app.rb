@@ -41,10 +41,15 @@ url = URI('https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flas
 
 before do
   session[:chat_history] ||= []
+  session[:model] ||= 'gemini-3-flash-preview'
 end
 
 get '/' do
   erb :index
+end
+
+get '/generate' do
+  redirect '/'
 end
 
 post '/generate' do
@@ -76,7 +81,9 @@ post '/generate' do
     http.open_timeout = 5
     http.read_timeout = 20
 
-    request = Net::HTTP::Post.new("#{url.path}?key=#{api_key}", headers)
+    model_name = session[:model]
+    endpoint = "https://generativelanguage.googleapis.com/v1beta/models/#{model_name}:generateContent"
+    request = Net::HTTP::Post.new("#{URI(endpoint).path}?key=#{api_key}", headers)
     request.body = data.to_json
 
     response = http.request(request)
@@ -128,5 +135,12 @@ end
 
 post '/history/clear' do
   session[:chat_history] = []
+  redirect back
+end
+
+get '/set_model' do
+  session[:model] = params[:model]
+  # Redirecting to home is the safest way to avoid routing errors like 404s 
+  # when changing settings from a non-GET route or complex URL.
   redirect '/'
 end
