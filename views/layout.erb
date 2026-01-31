@@ -236,10 +236,150 @@
             margin-bottom: 1.5rem;
             font-size: 0.9rem;
         }
+        /* Main Layout Adjustment */
+        .app-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            width: 95%;
+            flex: 1;
+        }
+
+        .sidebar {
+            width: 300px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 0; /* Prevent overflow */
+        }
+
+        header {
+            flex-basis: 100%;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        /* Sidebar Styling */
+        .history-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            max-height: calc(100vh - 250px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .history-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-list {
+            list-style: none;
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 0.5rem;
+        }
+
+        .history-item {
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 0.75rem;
+        }
+
+        .history-link {
+            text-decoration: none;
+            color: var(--text-main);
+            display: block;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .history-link:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .history-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .clear-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 0;
+        }
+
+        .clear-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* New Chat Button */
+        .new-chat-btn {
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .new-chat-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .app-wrapper {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                order: 2;
+            }
+            .main-content {
+                order: 1;
+            }
+            .history-card {
+                max-height: 400px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="layout-container">
+    <div class="app-wrapper">
         <header>
             <a href="/">
                 <img src="/logo.png" alt="Yapay Zeka Logo" class="logo">
@@ -248,13 +388,44 @@
             <p class="subtitle">En gelişmiş Gemini modelleriyle güçlendirildi</p>
         </header>
 
-        <main class="glass-card">
+        <aside class="sidebar">
+            <a href="/" class="new-chat-btn">
+                <span>➕</span> Yeni Sohbet
+            </a>
+            
+            <div class="history-card">
+                <div class="history-title">
+                    <span>🕒 Geçmiş</span>
+                    <% if session[:chat_history] && !session[:chat_history].empty? %>
+                        <form action="/history/clear" method="post" style="display:inline;">
+                            <button type="submit" class="clear-btn">Temizle</button>
+                        </form>
+                    <% end %>
+                </div>
+                <ul class="history-list">
+                    <% if session[:chat_history] && !session[:chat_history].empty? %>
+                        <% session[:chat_history].reverse.each do |chat| %>
+                            <li class="history-item">
+                                <div class="history-time"><%= chat[:timestamp] %></div>
+                                <a href="/history/<%= chat[:id] %>" class="history-link" title="<%= chat[:prompt] %>">
+                                    <%= chat[:prompt] %>
+                                </a>
+                            </li>
+                        <% end %>
+                    <% else %>
+                        <li style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 1rem 0;">Henüz geçmiş yok.</li>
+                    <% end %>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content glass-card">
             <%= yield %>
         </main>
-
-        <footer>
-            <p>&copy; <%= Time.now.year %> Created by <a href="https://github.com/garalo" target="_blank" rel="noopener noreferrer">garalo</a></p>
-        </footer>
     </div>
+
+    <footer>
+        <p>&copy; <%= Time.now.year %> Created by <a href="https://github.com/garalo" target="_blank" rel="noopener noreferrer">garalo</a></p>
+    </footer>
 </body>
 </html>

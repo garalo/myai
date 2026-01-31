@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'securerandom'
 require 'net/http'
 require 'json'
 require 'uri'
@@ -32,8 +33,15 @@ def markdown_to_html(text)
   markdown.render(text)
 end
 
+enable :sessions
+set :session_secret, ENV['SESSION_SECRET'] || 'abcedf01234567890123456789abcdef01234567890123456789abcdef012345'
+
 api_key = ENV['GEMINI_TOKEN']
 url = URI('https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent')
+
+before do
+  session[:chat_history] ||= []
+end
 
 get '/' do
   erb :index
@@ -82,6 +90,17 @@ post '/generate' do
       begin
         @text = text
         @generated_text = json_response[:candidates][0][:content][:parts][0][:text]
+        
+        # Save to history
+        session[:chat_history] << {
+          id: SecureRandom.uuid,
+          prompt: @text,
+          response: @generated_text,
+          timestamp: Time.now.strftime("%H:%M")
+        }
+        # Keep only last 20 chats
+        session[:chat_history] = session[:chat_history].last(20)
+
         erb :result
       rescue KeyError, IndexError, TypeError => e
         erb :error, locals: { message: "Yanıt verisi beklenen formatta değil: #{e}" }
@@ -94,4 +113,20 @@ post '/generate' do
   rescue Exception => e
      erb :error, locals: { message: "Beklenmedik hata: #{e}" }
   end
+end
+
+get '/history/:id' do
+  @chat = session[:chat_history].find { |c| c[:id] == params[:id] }
+  if @chat
+    @text = @chat[:prompt]
+    @generated_text = @chat[:response]
+    erb :result
+  else
+    erb :error, locals: { message: "Geçmiş konuşma bulunamadı." }
+  end
+end
+
+post '/history/clear' do
+  session[:chat_history] = []
+  redirect '/'
 end
