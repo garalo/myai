@@ -4,13 +4,7 @@
     <div class="prompt-content"><%= @text %></div>
   </div>
 
-  <% if @insecure_used %>
-    <div class="alert-warning">
-      <strong>Uyarı:</strong> Güvenlik doğrulaması devre dışı bırakıldı. Bu yalnızca geliştirme amaçlıdır.
-    </div>
-  <% end %>
-
-  <div class="prompt-title">Yapay Zekanın Yanıtı</div>
+  <div class="prompt-title">I'KNOW Yanıtı</div>
   <div class="generated-markdown">
     <%= markdown_to_html(@generated_text) %>
   </div>
